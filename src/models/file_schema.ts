@@ -1,101 +1,78 @@
 import mongoose from 'mongoose'
 
-const files=new mongoose.Schema({
-    link:{
-        type:String,
-        required:true
+// interface IFiles {
+//     link: Array<string>
+//     description: string
+// }
+
+const fileLinkSchema = new mongoose.Schema({
+    link: {
+        type: [String],
+        required: true
     },
-    description:{
-        type:String,
-        default:""
+    description: {
+        type: String,
+        default: ""
     }
 })
 
-const subjects=new mongoose.Schema({
-    subject_name:{
-        type:String,
-        required:true
+// interface ISubject {
+//     subject_name: string
+//     files: IFiles[]
+// }
+
+const subjectSchema = new mongoose.Schema({
+    subject_name: {
+        type: String,
+        required: true
     },
-    notes:{
-        type:[files],
-        default:[]
-    },
-    papers:{
-        type:[files],
-        default:[]
-    }
+    files: [fileLinkSchema]
 })
 
-const branch_details=new mongoose.Schema({
+// interface IBranch {
+//     CSE: ISubject[]
+//     ECE: ISubject[]
+//     IT: ISubject[]
+//     ME: ISubject[]
+//     EN: ISubject[]
+//     CE: ISubject[]
+//     [key: string]: ISubject[]
+// }
+
+const branchSchema = new mongoose.Schema({
     CSE:{
-        type:[subjects],
+        type:[subjectSchema],
         default:[]
     },
-    // CS:{
-    //     type:[subjects],
-    //     default:[]
-    // },
-    // CS_IT:{
-    //     type:[subjects],
-    //     default:[]
-    // },
-    // CSE_DS:{
-    //     type:[subjects],
-    //     default:[]
-    // },
-    // CSE_AIML:{
-    //     type:[subjects],
-    //     default:[]
-    // },
-    // CSE_HINDI:{
-    //     type:[subjects],
-    //     default:[]
-    // },
-    // AI_ML:{
-    //     type:[subjects],
-    //     default:[]
-    // },
     IT:{
-        type:[subjects],
+        type:[subjectSchema],
         default:[]
     },
     ECE:{
-        type:[subjects],
+        type:[subjectSchema],
         default:[]
     },
     ME:{
-        type:[subjects],
+        type:[subjectSchema],
         default:[]
     },
     EN:{
-        type:[subjects],
+        type:[subjectSchema],
         default:[]
     },
     CE:{
-        type:[subjects],
+        type:[subjectSchema],
         default:[]
     }
 })
 
-const fileSchema=new mongoose.Schema({
-    First_Year:{
-        type:[branch_details],
-        default:[]
-    },
-    Second_Year:{
-        type:[branch_details],
-        default:[]
-    },
-    Third_Year:{
-        type:[branch_details],
-        default:[]
-    },
-    Forth_Year:{
-        type:[branch_details],
-        default:[]
-    }
+const PaperHub = new mongoose.Schema({
+    First_Year: [branchSchema],
+    Second_Year: [branchSchema],
+    Third_Year: [branchSchema],
+    Forth_Year: [branchSchema]
 })
 
-const data = mongoose.model('PaperHub File', fileSchema);
+const files = mongoose.model('PaperHub File', PaperHub)
 
-export default data
+export default files 

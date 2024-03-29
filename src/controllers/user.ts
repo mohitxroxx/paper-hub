@@ -33,9 +33,10 @@ const login=async(req:Request,res:Response)=>{
         const checkUser=await User.findOne({email})
         if(!checkUser)
             return res.status(404).json({message:"Email isn't registered, register to continue"})
-
+        const time= rememberMe ? '2d' : '2h'
+        return res.status(200).json({msg:"logged in successfully"})
     } catch (error) {
-        
+        console.error(error)
     }
 }
 
