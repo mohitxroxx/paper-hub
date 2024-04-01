@@ -6,28 +6,44 @@ import mongoose from 'mongoose'
 // }
 
 const fileLinkSchema = new mongoose.Schema({
+    fileId: {
+        type: mongoose.Schema.Types.ObjectId,
+        alias: '_id',
+        unique: true,
+        index: true,
+        required: true,
+        auto: true,
+      },
     link: {
         type: [String],
         required: true
     },
-    description: {
+    type: {
         type: String,
         default: ""
     }
-})
+}, { _id: false })
 
 // interface ISubject {
-//     subject_name: string
+//     subject-name: string
 //     files: IFiles[]
 // }
 
 const subjectSchema = new mongoose.Schema({
-    subject_name: {
+    subjectId: {
+        type: mongoose.Schema.Types.ObjectId,
+        alias: '_id',
+        unique: true,
+        index: true,
+        required: true,
+        auto: true,
+      },
+    subjectName: {
         type: String,
         required: true
     },
     files: [fileLinkSchema]
-})
+}, { _id: false })
 
 // interface IBranch {
 //     CSE: ISubject[]
@@ -40,6 +56,14 @@ const subjectSchema = new mongoose.Schema({
 // }
 
 const branchSchema = new mongoose.Schema({
+    branchId: {
+      type: mongoose.Schema.Types.ObjectId,
+      alias: '_id',
+      unique: true,
+      index: true,
+      required: true,
+      auto: true,
+    },
     CSE:{
         type:[subjectSchema],
         default:[]
@@ -64,13 +88,25 @@ const branchSchema = new mongoose.Schema({
         type:[subjectSchema],
         default:[]
     }
-})
+}, { _id: false })
 
 const PaperHub = new mongoose.Schema({
-    First_Year: [branchSchema],
-    Second_Year: [branchSchema],
-    Third_Year: [branchSchema],
-    Forth_Year: [branchSchema]
+    firstYear:{
+        type:[branchSchema],
+        default:[]
+    },
+    secondYear:{
+        type:[branchSchema],
+        default:[]
+    },
+    thirdYear:{
+        type:[branchSchema],
+        default:[]
+    },
+    forthYear:{
+        type:[branchSchema],
+        default:[]
+    },
 })
 
 const files = mongoose.model('PaperHub File', PaperHub)
